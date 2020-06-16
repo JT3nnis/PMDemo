@@ -18,7 +18,7 @@ Documentation of all available APIs can be found when you launch project
 Refer to https://localhost:44331/Help
 
 Use Postman or Fiddler to test API's
-(In Postman I had to disable SSL certificate verification)
+In Postman I had to disable SSL certificate verification (Hit the wrench icon and turn off SSL)
 
 For example:
 https://localhost:44331/api/Ranking?name=leaderboard&ascending=true&size=15&begin=2
