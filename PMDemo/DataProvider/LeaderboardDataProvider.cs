@@ -16,10 +16,12 @@ namespace PMDemo.DataProvider
             LeaderboardDBEntities = new LeaderboardDBEntities();
         }
 
-        /// <inheritdoc cref="RankingController.GetAllRankings()"/>
-        public IEnumerable<RankingView> RetrieveRankingViews()
+        /// <summary>
+        /// Finds all rankings in a leaderboard database.
+        /// </summary>
+        public IEnumerable<Ranking> RetrieveRankings()
         {
-            return ConvertRankingsToRankingViews(LeaderboardDBEntities.Rankings.ToList());
+            return LeaderboardDBEntities.Rankings.ToList();
         }
 
         /// <inheritdoc cref="RankingController.GetLeaderboardRankings(string, bool, int?, int?)"/>
@@ -144,6 +146,21 @@ namespace PMDemo.DataProvider
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Checks if there is a ranking with matching username and leaderboard pair. Throws exception if found.
+        /// </summary>
+        /// <param name="rankings">Rankings you wish to check from.</param>
+        /// <param name="username">Ranking username you are intending to change.</param>
+        /// <param name="leaderboardName">Ranking leaderboard you are intending to change.</param>
+        public void CheckDuplicateRanking(IEnumerable<Ranking> rankings, string username, string leaderboardName)
+        {
+            Ranking duplicateRanking = rankings.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.Leaderboard.LeaderboardName.Equals(leaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            if (duplicateRanking != null)
+            {
+                throw new InvalidOperationException($"Ranking for {username} on {leaderboardName} leaderboard already exists.");
             }
         }
 

@@ -486,15 +486,6 @@
             API service controller for rankings.
             </summary>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.GetAllRankings">
-            <summary>
-            Gets all the rankings of a specified leaderboard name.
-            </summary>
-            <param name="name">Name of the leaderboard you want to retrieve.</param>
-            <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
-            <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
-            <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
-        </member>
         <member name="M:PMDemo.Controllers.RankingController.GetLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Gets all the rankings of a specified leaderboard name.
@@ -537,8 +528,10 @@
             </summary>
             <param name="rating">The ranking's rating.</param>
         </member>
-        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveRankingViews">
-            <inheritdoc cref="M:PMDemo.Controllers.RankingController.GetAllRankings"/>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveRankings">
+            <summary>
+            Finds all rankings in a leaderboard database.
+            </summary>
         </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <inheritdoc cref="M:PMDemo.Controllers.RankingController.GetLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})"/>
@@ -572,6 +565,14 @@
             </summary>
             <param name="username">Username of the ranking you want to delete.</param>
             <param name="leaderboard">Leaderboard of the ranking you want to delete.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.CheckDuplicateRanking(System.Collections.Generic.IEnumerable{LeaderboardDataAccess.Ranking},System.String,System.String)">
+            <summary>
+            Checks if there is a ranking with matching username and leaderboard pair. Throws exception if found.
+            </summary>
+            <param name="rankings">Rankings you wish to check from.</param>
+            <param name="username">Ranking username you are intending to change.</param>
+            <param name="leaderboardName">Ranking leaderboard you are intending to change.</param>
         </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.ConvertRankingToRankingView(LeaderboardDataAccess.Ranking,System.Int32,System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Int32})">
             <summary>

@@ -22,18 +22,6 @@ namespace PMDemo.Controllers
         }
 
         /// <summary>
-        /// Gets all the rankings in the leaderboard database.
-        /// </summary>
-        /// <param name="name">Name of the leaderboard you want to retrieve.</param>
-        /// <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
-        /// <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
-        /// <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
-        public IEnumerable<RankingView> GetAllRankings()
-        {
-            return LeaderboardDataProvider.RetrieveRankingViews();
-        }
-
-        /// <summary>
         /// Gets all the rankings of a specified leaderboard name.
         /// </summary>
         /// <param name="name">Name of the leaderboard you want to retrieve.</param>
@@ -133,19 +121,5 @@ namespace PMDemo.Controllers
                 throw new InvalidOperationException($"Rating cannot be below zero.");
             }
         }
-
-        /// <summary>
-        /// Checks if there is a ranking with matching username and leaderboard pair. Throws exception if found.
-        /// </summary>
-        /// <param name="rankings">Rankings you wish to check from.</param>
-        /// <param name="newRanking">Ranking you are intending to change.</param>
-        //private void CheckDuplicateRanking(IEnumerable<PMRanking> rankings, PMRanking newRanking)
-        //{
-        //    PMRanking duplicateRanking = rankings.Where(x => x.Username == newRanking.Username && x.Leaderboard == newRanking.Leaderboard).FirstOrDefault();
-        //    if (duplicateRanking != null)
-        //    {
-        //        throw new InvalidOperationException($"Ranking for {newRanking.Username} on {newRanking.Leaderboard} leaderboard already exists.");
-        //    }
-        //}
     }
 }
