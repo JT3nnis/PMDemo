@@ -1,4 +1,5 @@
 ﻿using LeaderboardDataAccess;
+using PMDemo.Controllers;
 using PMDemo.Models;
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,13 @@ namespace PMDemo.DataProvider
             LeaderboardDBEntities = new LeaderboardDBEntities();
         }
 
-        /// <summary>
-        /// Gets all rankings in the leadership database.
-        /// </summary>
+        /// <inheritdoc cref="RankingController.GetAllRankings()"/>
         public IEnumerable<RankingView> RetrieveRankingViews()
         {
             return ConvertRankingsToRankingViews(LeaderboardDBEntities.Rankings.ToList());
         }
 
-        /// <summary>
-        /// Gets all the rankings of a specified leaderboard name.
-        /// </summary>
-        /// <param name="name">Name of the leaderboard you want to retrieve.</param>
-        /// <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
-        /// <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
-        /// <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
+        /// <inheritdoc cref="RankingController.GetLeaderboardRankings(string, bool, int?, int?)"/>
         public IEnumerable<RankingView> RetrieveLeaderboardRankings(string name, bool ascending, int? size = null, int? begin = null)
         {
             IEnumerable<Ranking> rankings = LeaderboardDBEntities.Rankings.AsEnumerable().OrderBy(x => x.Rating).Where(x => x.Leaderboard.LeaderboardName.Equals(name, StringComparison.CurrentCultureIgnoreCase)).Reverse().ToList();
@@ -53,11 +46,7 @@ namespace PMDemo.DataProvider
             }
         }
 
-        /// <summary>
-        /// Gets a ranking by ID in the leadership database.
-        /// </summary>
-        /// <param name="username">Username of the ranking you want to retrieve.</param>
-        /// <param name="leaderboardName">Leaderboard of the ranking you want to retrieve.</param>
+        /// <inheritdoc cref="RankingController.GetRanking(string, string)"/>
         public RankingView RetrieveLeaderboardRanking(string username, string leaderboardName)
         {
             IEnumerable<RankingView> rankingViews = RetrieveLeaderboardRankings(leaderboardName, true);

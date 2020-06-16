@@ -487,13 +487,29 @@
             </summary>
         </member>
         <member name="M:PMDemo.Controllers.RankingController.GetAllRankings">
-            <inheritdoc cref="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveRankingViews"/>
+            <summary>
+            Gets all the rankings of a specified leaderboard name.
+            </summary>
+            <param name="name">Name of the leaderboard you want to retrieve.</param>
+            <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
+            <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
+            <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
         </member>
         <member name="M:PMDemo.Controllers.RankingController.GetLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})">
-            <inheritdoc cref="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})"/>
+            <summary>
+            Gets all the rankings of a specified leaderboard name.
+            </summary>
+            <param name="name">Name of the leaderboard you want to retrieve.</param>
+            <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
+            <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
+            <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
         </member>
         <member name="M:PMDemo.Controllers.RankingController.GetRanking(System.String,System.String)">
-            <inheritdoc cref="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRanking(System.String,System.String)"/>
+            <summary>
+            Gets a ranking by ID in the leadership database.
+            </summary>
+            <param name="username">Username of the ranking you want to retrieve.</param>
+            <param name="leaderboardName">Leaderboard of the ranking you want to retrieve.</param>
         </member>
         <member name="M:PMDemo.Controllers.RankingController.UpsertRanking(PMDemo.Models.PMRanking)">
             <summary>
@@ -522,25 +538,13 @@
             <param name="rating">The ranking's rating.</param>
         </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveRankingViews">
-            <summary>
-            Gets all rankings in the leadership database.
-            </summary>
+            <inheritdoc cref="M:PMDemo.Controllers.RankingController.GetAllRankings"/>
         </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})">
-            <summary>
-            Gets all the rankings of a specified leaderboard name.
-            </summary>
-            <param name="name">Name of the leaderboard you want to retrieve.</param>
-            <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
-            <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
-            <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
+            <inheritdoc cref="M:PMDemo.Controllers.RankingController.GetLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})"/>
         </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRanking(System.String,System.String)">
-            <summary>
-            Gets a ranking by ID in the leadership database.
-            </summary>
-            <param name="username">Username of the ranking you want to retrieve.</param>
-            <param name="leaderboardName">Leaderboard of the ranking you want to retrieve.</param>
+            <inheritdoc cref="M:PMDemo.Controllers.RankingController.GetRanking(System.String,System.String)"/>
         </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.FindRanking(System.String,System.String)">
             <summary>

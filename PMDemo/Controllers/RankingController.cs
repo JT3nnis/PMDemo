@@ -21,19 +21,35 @@ namespace PMDemo.Controllers
             LeaderboardDataProvider = new LeaderboardDataProvider();
         }
 
-        /// <inheritdoc cref="LeaderboardDataProvider.RetrieveRankingViews()"/>
+        /// <summary>
+        /// Gets all the rankings in the leaderboard database.
+        /// </summary>
+        /// <param name="name">Name of the leaderboard you want to retrieve.</param>
+        /// <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
+        /// <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
+        /// <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
         public IEnumerable<RankingView> GetAllRankings()
         {
             return LeaderboardDataProvider.RetrieveRankingViews();
         }
 
-        /// <inheritdoc cref="LeaderboardDataProvider.RetrieveLeaderboardRankings(string, bool, int?, int?)"/>
+        /// <summary>
+        /// Gets all the rankings of a specified leaderboard name.
+        /// </summary>
+        /// <param name="name">Name of the leaderboard you want to retrieve.</param>
+        /// <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
+        /// <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
+        /// <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
         public IEnumerable<RankingView> GetLeaderboardRankings(string name, bool ascending, int? size = null, int? begin = null)
         {
             return LeaderboardDataProvider.RetrieveLeaderboardRankings(name, ascending, size, begin);
         }
 
-        /// <inheritdoc cref="LeaderboardDataProvider.RetrieveLeaderboardRanking(string, string)"/>
+        /// <summary>
+        /// Gets a ranking by ID in the leadership database.
+        /// </summary>
+        /// <param name="username">Username of the ranking you want to retrieve.</param>
+        /// <param name="leaderboardName">Leaderboard of the ranking you want to retrieve.</param>
         public RankingView GetRanking(string username, string leaderboard)
         {
             return LeaderboardDataProvider.RetrieveLeaderboardRanking(username, leaderboard);
