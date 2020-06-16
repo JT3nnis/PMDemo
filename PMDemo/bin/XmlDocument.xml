@@ -487,43 +487,19 @@
             </summary>
         </member>
         <member name="M:PMDemo.Controllers.RankingController.GetAllRankings">
-            <summary>
-            Gets all rankings in the leadership database.
-            </summary>
+            <inheritdoc cref="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveRankingViews"/>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.GetRankingByID(System.Int32)">
-            <summary>
-            Gets a ranking by ID in the leadership database.
-            </summary>
-            <param name="id">ID of the ranking you want to retrieve.</param>
+        <member name="M:PMDemo.Controllers.RankingController.GetLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <inheritdoc cref="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})"/>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.GetLeaderboardRankings(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Boolean)">
-            <summary>
-            Gets all the rankings of a specified leaderboard name.
-            </summary>
-            <param name="name">Name of the leaderboard you want to retrieve.</param>
-            <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
-            <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
-            <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
+        <member name="M:PMDemo.Controllers.RankingController.GetRanking(System.String,System.String)">
+            <inheritdoc cref="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRanking(System.String,System.String)"/>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.UpsertRanking(LeaderboardDataProvider.Ranking)">
+        <member name="M:PMDemo.Controllers.RankingController.UpsertRanking(PMDemo.Models.PMRanking)">
             <summary>
             Creates or updates the ranking, if already exists, in the leaderboard database.
             </summary>
             <param name="ranking">Ranking that you intend to upsert.</param>
-        </member>
-        <member name="M:PMDemo.Controllers.RankingController.UpdateRanking(System.Int32,LeaderboardDataProvider.Ranking)">
-            <summary>
-            Updates a ranking in the leaderboard database.
-            </summary>
-            <param name="id">ID of the ranking you want to update.</param>
-            <param name="ranking">Ranking that you intend to update.</param>
-        </member>
-        <member name="M:PMDemo.Controllers.RankingController.DeleteRanking(System.Int32)">
-            <summary>
-            Deletes a ranking in the leaderboard database.
-            </summary>
-            <param name="id">ID of the ranking you want to delete.</param>
         </member>
         <member name="M:PMDemo.Controllers.RankingController.DeleteRanking(System.String,System.String)">
             <summary>
@@ -545,27 +521,71 @@
             </summary>
             <param name="rating">The ranking's rating.</param>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.CheckDuplicateRanking(System.Collections.Generic.IEnumerable{LeaderboardDataProvider.Ranking},LeaderboardDataProvider.Ranking)">
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveRankingViews">
             <summary>
-            Checks if there is a ranking with matching username and leaderboard pair. Throws exception if found.
+            Gets all rankings in the leadership database.
             </summary>
-            <param name="rankings">Rankings you wish to check from.</param>
-            <param name="newRanking">Ranking you are intending to change.</param>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.ConvertRankingToRankingView(LeaderboardDataProvider.Ranking,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRankings(System.String,System.Boolean,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Gets all the rankings of a specified leaderboard name.
+            </summary>
+            <param name="name">Name of the leaderboard you want to retrieve.</param>
+            <param name="size">Size of the leaderboard. Optional, entire size by default.</param>
+            <param name="begin">Start of the leaderboard. Optional, starts at rank 1 at default.</param>
+            <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboardRanking(System.String,System.String)">
+            <summary>
+            Gets a ranking by ID in the leadership database.
+            </summary>
+            <param name="username">Username of the ranking you want to retrieve.</param>
+            <param name="leaderboardName">Leaderboard of the ranking you want to retrieve.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.FindRanking(System.String,System.String)">
+            <summary>
+            Finds a ranking in a leaderboard based off their username.
+            </summary>
+            <param name="username">Username that is being queried.</param>
+            <param name="leaderboardName">Name of the leaderboard queried.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.CreateRanking(PMDemo.Models.PMRanking)">
+            <summary>
+            Creates a ranking in the leaderboard database.
+            </summary>
+            <param name="ranking">Ranking that you are creating.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.UpdateRanking(LeaderboardDataAccess.Ranking,PMDemo.Models.PMRanking)">
+            <summary>
+            Updates a ranking in the leaderboard database.
+            </summary>
+            <param name="foundRanking">Ranking that you intend to update.</param>
+            <param name="ranking">Values of the ranking you intend to change.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.DeleteRanking(System.String,System.String)">
+            <summary>
+            Deletes a ranking in the leaderboard database given an username and leaderboard pair.
+            </summary>
+            <param name="username">Username of the ranking you want to delete.</param>
+            <param name="leaderboard">Leaderboard of the ranking you want to delete.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.ConvertRankingToRankingView(LeaderboardDataAccess.Ranking,System.Int32,System.Nullable{System.Int32},System.Boolean,System.Nullable{System.Int32})">
             <summary>
             Converts a Ranking model into a Ranking View Model.
             </summary>
             <param name="ranking">Ranking model you are converting.</param>
             <param name="index">Index of ranking.</param>
             <param name="begin">Beginning index of the rankings.</param>
+            <param name="ascending">Sort direction of the rankings.</param>
+            <param name="count">Size of the queried rankings.</param>
         </member>
-        <member name="M:PMDemo.Controllers.RankingController.ConvertRankingsToRankingViews(System.Collections.Generic.IEnumerable{LeaderboardDataProvider.Ranking},System.Nullable{System.Int32})">
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.ConvertRankingsToRankingViews(System.Collections.Generic.IEnumerable{LeaderboardDataAccess.Ranking},System.Nullable{System.Int32},System.Boolean)">
             <summary>
             Converts an enumerable set of Ranking models into a Ranking View Models.
             </summary>
             <param name="rankings">Ranking models you are converting.</param>
             <param name="begin">Beginning index of the rankings.</param>
+            <param name="asccending">Sort direction of the rankings.</param>
         </member>
     </members>
 </doc>

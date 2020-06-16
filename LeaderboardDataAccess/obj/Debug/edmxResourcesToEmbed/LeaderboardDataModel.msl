@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LeaderboardDBModelStoreContainer" CdmEntityContainer="LeaderboardDBEntities">
+    <EntitySetMapping Name="Leaderboards">
+      <EntityTypeMapping TypeName="LeaderboardDBModel.Leaderboard">
+        <MappingFragment StoreEntitySet="Leaderboards">
+          <ScalarProperty Name="LeaderboardID" ColumnName="LeaderboardID" />
+          <ScalarProperty Name="LeaderboardName" ColumnName="LeaderboardName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rankings">
+      <EntityTypeMapping TypeName="LeaderboardDBModel.Ranking">
+        <MappingFragment StoreEntitySet="Rankings">
+          <ScalarProperty Name="RankingID" ColumnName="RankingID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="LeaderboardID" ColumnName="LeaderboardID" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

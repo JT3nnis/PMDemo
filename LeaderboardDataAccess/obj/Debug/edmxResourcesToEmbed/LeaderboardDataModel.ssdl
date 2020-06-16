@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeaderboardDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Leaderboards">
+    <Key>
+      <PropertyRef Name="LeaderboardID" />
+    </Key>
+    <Property Name="LeaderboardID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LeaderboardName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rankings">
+    <Key>
+      <PropertyRef Name="RankingID" />
+    </Key>
+    <Property Name="RankingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LeaderboardID" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Rankings__Leader__4222D4EF">
+    <End Role="Leaderboards" Type="Self.Leaderboards" Multiplicity="1" />
+    <End Role="Rankings" Type="Self.Rankings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Leaderboards">
+        <PropertyRef Name="LeaderboardID" />
+      </Principal>
+      <Dependent Role="Rankings">
+        <PropertyRef Name="LeaderboardID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LeaderboardDBModelStoreContainer">
+    <EntitySet Name="Leaderboards" EntityType="Self.Leaderboards" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rankings" EntityType="Self.Rankings" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Rankings__Leader__4222D4EF" Association="Self.FK__Rankings__Leader__4222D4EF">
+      <End Role="Leaderboards" EntitySet="Leaderboards" />
+      <End Role="Rankings" EntitySet="Rankings" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

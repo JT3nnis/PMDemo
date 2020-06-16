@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LeaderboardDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Leaderboard">
+    <Key>
+      <PropertyRef Name="LeaderboardID" />
+    </Key>
+    <Property Name="LeaderboardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LeaderboardName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Rankings" Relationship="Self.FK__Rankings__Leader__4222D4EF" FromRole="Leaderboards" ToRole="Rankings" />
+  </EntityType>
+  <EntityType Name="Ranking">
+    <Key>
+      <PropertyRef Name="RankingID" />
+    </Key>
+    <Property Name="RankingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LeaderboardID" Type="Int32" Nullable="false" />
+    <Property Name="Rating" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Leaderboard" Relationship="Self.FK__Rankings__Leader__4222D4EF" FromRole="Rankings" ToRole="Leaderboards" />
+  </EntityType>
+  <Association Name="FK__Rankings__Leader__4222D4EF">
+    <End Role="Leaderboards" Type="Self.Leaderboard" Multiplicity="1" />
+    <End Role="Rankings" Type="Self.Ranking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Leaderboards">
+        <PropertyRef Name="LeaderboardID" />
+      </Principal>
+      <Dependent Role="Rankings">
+        <PropertyRef Name="LeaderboardID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LeaderboardDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Leaderboards" EntityType="Self.Leaderboard" />
+    <EntitySet Name="Rankings" EntityType="Self.Ranking" />
+    <AssociationSet Name="FK__Rankings__Leader__4222D4EF" Association="Self.FK__Rankings__Leader__4222D4EF">
+      <End Role="Leaderboards" EntitySet="Leaderboards" />
+      <End Role="Rankings" EntitySet="Rankings" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

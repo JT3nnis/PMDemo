@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LeaderboardDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Leaderboards">
+          <Key>
+            <PropertyRef Name="LeaderboardID" />
+          </Key>
+          <Property Name="LeaderboardID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LeaderboardName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rankings">
+          <Key>
+            <PropertyRef Name="RankingID" />
+          </Key>
+          <Property Name="RankingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LeaderboardID" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Rankings__Leader__4222D4EF">
+          <End Role="Leaderboards" Type="Self.Leaderboards" Multiplicity="1" />
+          <End Role="Rankings" Type="Self.Rankings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leaderboards">
+              <PropertyRef Name="LeaderboardID" />
+            </Principal>
+            <Dependent Role="Rankings">
+              <PropertyRef Name="LeaderboardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LeaderboardDBModelStoreContainer">
+          <EntitySet Name="Leaderboards" EntityType="Self.Leaderboards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rankings" EntityType="Self.Rankings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Rankings__Leader__4222D4EF" Association="Self.FK__Rankings__Leader__4222D4EF">
+            <End Role="Leaderboards" EntitySet="Leaderboards" />
+            <End Role="Rankings" EntitySet="Rankings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LeaderboardDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Leaderboard">
+          <Key>
+            <PropertyRef Name="LeaderboardID" />
+          </Key>
+          <Property Name="LeaderboardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LeaderboardName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Rankings" Relationship="Self.FK__Rankings__Leader__4222D4EF" FromRole="Leaderboards" ToRole="Rankings" />
+        </EntityType>
+        <EntityType Name="Ranking">
+          <Key>
+            <PropertyRef Name="RankingID" />
+          </Key>
+          <Property Name="RankingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LeaderboardID" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Leaderboard" Relationship="Self.FK__Rankings__Leader__4222D4EF" FromRole="Rankings" ToRole="Leaderboards" />
+        </EntityType>
+        <Association Name="FK__Rankings__Leader__4222D4EF">
+          <End Role="Leaderboards" Type="Self.Leaderboard" Multiplicity="1" />
+          <End Role="Rankings" Type="Self.Ranking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leaderboards">
+              <PropertyRef Name="LeaderboardID" />
+            </Principal>
+            <Dependent Role="Rankings">
+              <PropertyRef Name="LeaderboardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LeaderboardDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Leaderboards" EntityType="Self.Leaderboard" />
+          <EntitySet Name="Rankings" EntityType="Self.Ranking" />
+          <AssociationSet Name="FK__Rankings__Leader__4222D4EF" Association="Self.FK__Rankings__Leader__4222D4EF">
+            <End Role="Leaderboards" EntitySet="Leaderboards" />
+            <End Role="Rankings" EntitySet="Rankings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LeaderboardDBModelStoreContainer" CdmEntityContainer="LeaderboardDBEntities">
+          <EntitySetMapping Name="Leaderboards">
+            <EntityTypeMapping TypeName="LeaderboardDBModel.Leaderboard">
+              <MappingFragment StoreEntitySet="Leaderboards">
+                <ScalarProperty Name="LeaderboardID" ColumnName="LeaderboardID" />
+                <ScalarProperty Name="LeaderboardName" ColumnName="LeaderboardName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rankings">
+            <EntityTypeMapping TypeName="LeaderboardDBModel.Ranking">
+              <MappingFragment StoreEntitySet="Rankings">
+                <ScalarProperty Name="RankingID" ColumnName="RankingID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="LeaderboardID" ColumnName="LeaderboardID" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

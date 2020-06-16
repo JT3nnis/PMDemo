@@ -1,10 +1,9 @@
 ﻿namespace PMDemo.Models
 {
-    public class RankingView
+    public class PMRanking
     {
-        public int Rank { get; set; }
         public string Username { get; set; }
-        public int Rating { get; set; }
         public string LeaderboardName { get; set; }
+        public int Rating { get; set; }
     }
 }

@@ -1,0 +1,12 @@
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\LeaderboardDataAccess.dll.config
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\LeaderboardDataAccess.dll
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\LeaderboardDataAccess.pdb
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\EntityFramework.dll
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\EntityFramework.xml
+C:\Professional\PMDemo\LeaderboardDataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Professional\PMDemo\LeaderboardDataAccess\obj\Debug\LeaderboardDataAccess.csprojAssemblyReference.cache
+C:\Professional\PMDemo\LeaderboardDataAccess\obj\Debug\LeaderboardDataAccess.csproj.CoreCompileInputs.cache
+C:\Professional\PMDemo\LeaderboardDataAccess\obj\Debug\LeaderboardDataAccess.csproj.CopyComplete
+C:\Professional\PMDemo\LeaderboardDataAccess\obj\Debug\LeaderboardDataAccess.dll
+C:\Professional\PMDemo\LeaderboardDataAccess\obj\Debug\LeaderboardDataAccess.pdb
