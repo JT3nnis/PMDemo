@@ -481,6 +481,22 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:PMDemo.Controllers.LeaderboardController">
+            <summary>
+            API service controller for leaderboards.
+            </summary>
+        </member>
+        <member name="M:PMDemo.Controllers.LeaderboardController.GetLeaderboards">
+            <summary>
+            Finds all leaderboards in a leaderboard database.
+            </summary>
+        </member>
+        <member name="M:PMDemo.Controllers.LeaderboardController.CreateLeaderboard(LeaderboardDataAccess.Leaderboard)">
+            <summary>
+            Creates a leaderboard in the leaderboard database.
+            </summary>
+            <param name="leaderboard">Leaderboard that you intend to create.</param>
+        </member>
         <member name="T:PMDemo.Controllers.RankingController">
             <summary>
             API service controller for rankings.
@@ -566,6 +582,12 @@
             <param name="username">Username of the ranking you want to delete.</param>
             <param name="leaderboard">Leaderboard of the ranking you want to delete.</param>
         </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.RetrieveLeaderboards">
+            <inheritdoc cref="M:PMDemo.Controllers.LeaderboardController.GetLeaderboards"/>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.CreateLeaderboard(LeaderboardDataAccess.Leaderboard)">
+            <inheritdoc cref="M:PMDemo.Controllers.LeaderboardController.CreateLeaderboard(LeaderboardDataAccess.Leaderboard)"/>
+        </member>
         <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.CheckDuplicateRanking(System.Collections.Generic.IEnumerable{LeaderboardDataAccess.Ranking},System.String,System.String)">
             <summary>
             Checks if there is a ranking with matching username and leaderboard pair. Throws exception if found.
@@ -591,6 +613,18 @@
             <param name="rankings">Ranking models you are converting.</param>
             <param name="begin">Beginning index of the rankings.</param>
             <param name="asccending">Sort direction of the rankings.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.ConvertLeaderboardToLeaderboardView(LeaderboardDataAccess.Leaderboard)">
+            <summary>
+            Converts a Leaderboard model into a Ranking View Model.
+            </summary>
+            <param name="leaderboard">Leaderboard model you are converting.</param>
+        </member>
+        <member name="M:PMDemo.DataProvider.LeaderboardDataProvider.ConvertLeaderboardsToLeaderboardViews(System.Collections.Generic.IEnumerable{LeaderboardDataAccess.Leaderboard})">
+            <summary>
+            Converts an enumerable set of Leaderboard models into a Leaderboard View Models.
+            </summary>
+            <param name="leaderboards">Leaderboards models you are converting.</param>
         </member>
     </members>
 </doc>

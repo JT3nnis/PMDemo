@@ -149,6 +149,33 @@ namespace PMDemo.DataProvider
             }
         }
 
+        /// <inheritdoc cref="LeaderboardController.GetLeaderboards"/>
+        public IEnumerable<LeaderboardView> RetrieveLeaderboards()
+        {
+            return ConvertLeaderboardsToLeaderboardViews(LeaderboardDBEntities.Leaderboards.ToList());
+        }
+
+        /// <inheritdoc cref="LeaderboardController.CreateLeaderboard(Leaderboard)"/>
+        public Leaderboard CreateLeaderboard(Leaderboard leaderboard)
+        {
+            try
+            {
+                Leaderboard foundLeaderboard = LeaderboardDBEntities.Leaderboards.Where(x => x.LeaderboardName.Equals(leaderboard.LeaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                if (foundLeaderboard != null)
+                {
+                    throw new NotImplementedException($"{leaderboard.LeaderboardName} leaderboard already exists.");
+                }
+
+                LeaderboardDBEntities.Leaderboards.Add(leaderboard);
+                LeaderboardDBEntities.SaveChanges();
+                return leaderboard;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// Checks if there is a ranking with matching username and leaderboard pair. Throws exception if found.
         /// </summary>
@@ -212,6 +239,33 @@ namespace PMDemo.DataProvider
             }
 
             return rankingViews;
+        }
+
+        /// <summary>
+        /// Converts a Leaderboard model into a Ranking View Model.
+        /// </summary>
+        /// <param name="leaderboard">Leaderboard model you are converting.</param>
+        private LeaderboardView ConvertLeaderboardToLeaderboardView(Leaderboard leaderboard)
+        {
+            LeaderboardView leaderboardView = new LeaderboardView();
+            leaderboardView.LeaderboardName = leaderboard.LeaderboardName;
+            return leaderboardView;
+        }
+
+        /// <summary>
+        /// Converts an enumerable set of Leaderboard models into a Leaderboard View Models.
+        /// </summary>
+        /// <param name="leaderboards">Leaderboards models you are converting.</param>
+        private IEnumerable<LeaderboardView> ConvertLeaderboardsToLeaderboardViews(IEnumerable<Leaderboard> leaderboards)
+        {
+            IList<LeaderboardView> leaderboardViews = new List<LeaderboardView>();
+            foreach (Leaderboard leaderboard in leaderboards)
+            {
+                LeaderboardView leaderboardView = ConvertLeaderboardToLeaderboardView(leaderboard);
+                leaderboardViews.Add(leaderboardView);
+            }
+
+            return leaderboardViews;
         }
     }
 }
