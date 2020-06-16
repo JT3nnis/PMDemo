@@ -8,15 +8,19 @@ namespace PMDemo.DataProvider
 {
     public class LeaderboardDataProvider
     {
+        private LeaderboardDBEntities LeaderboardDBEntities;
+
+        public LeaderboardDataProvider()
+        {
+            LeaderboardDBEntities = new LeaderboardDBEntities();
+        }
+
         /// <summary>
         /// Gets all rankings in the leadership database.
         /// </summary>
         public IEnumerable<RankingView> RetrieveRankingViews()
         {
-            using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
-            {
-                return ConvertRankingsToRankingViews(entities.Rankings.ToList());
-            }
+            return ConvertRankingsToRankingViews(LeaderboardDBEntities.Rankings.ToList());
         }
 
         /// <summary>
@@ -28,27 +32,24 @@ namespace PMDemo.DataProvider
         /// <param name="ascending">Rating sort direction. Optional, Sorted by highest rating first by default.</param>
         public IEnumerable<RankingView> RetrieveLeaderboardRankings(string name, bool ascending, int? size = null, int? begin = null)
         {
-            using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
+            IEnumerable<Ranking> rankings = LeaderboardDBEntities.Rankings.AsEnumerable().OrderBy(x => x.Rating).Where(x => x.Leaderboard.LeaderboardName.Equals(name, StringComparison.CurrentCultureIgnoreCase)).Reverse().ToList();
+            if (begin != null)
             {
-                IEnumerable<Ranking> rankings = entities.Rankings.AsEnumerable().OrderBy(x => x.Rating).Where(x => x.Leaderboard.LeaderboardName.Equals(name, StringComparison.CurrentCultureIgnoreCase)).Reverse().ToList();
-                if (begin != null)
-                {
-                    rankings = rankings.Skip((int)begin);
-                }
+                rankings = rankings.Skip((int)begin);
+            }
 
-                if (size != null)
-                {
-                    rankings = rankings.Take((int)size);
-                }
+            if (size != null)
+            {
+                rankings = rankings.Take((int)size);
+            }
 
-                if (ascending)
-                {
-                    return ConvertRankingsToRankingViews(rankings, begin);
-                }
-                else
-                {
-                    return ConvertRankingsToRankingViews(rankings.Reverse(), begin, ascending);
-                }
+            if (ascending)
+            {
+                return ConvertRankingsToRankingViews(rankings, begin);
+            }
+            else
+            {
+                return ConvertRankingsToRankingViews(rankings.Reverse(), begin, ascending);
             }
         }
 
@@ -59,11 +60,8 @@ namespace PMDemo.DataProvider
         /// <param name="leaderboardName">Leaderboard of the ranking you want to retrieve.</param>
         public RankingView RetrieveLeaderboardRanking(string username, string leaderboardName)
         {
-            using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
-            {
-                IEnumerable<RankingView> rankingViews = RetrieveLeaderboardRankings(leaderboardName, true);
-                return rankingViews.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.LeaderboardName.Equals(leaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            }
+            IEnumerable<RankingView> rankingViews = RetrieveLeaderboardRankings(leaderboardName, true);
+            return rankingViews.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.LeaderboardName.Equals(leaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
         }
 
         /// <summary>
@@ -73,11 +71,8 @@ namespace PMDemo.DataProvider
         /// <param name="leaderboardName">Name of the leaderboard queried.</param>
         public Ranking FindRanking(string username, string leaderboardName)
         {
-            using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
-            {
-                Ranking foundRanking = entities.Rankings.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.Leaderboard.LeaderboardName.Equals(leaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                return foundRanking;
-            }
+            Ranking foundRanking = LeaderboardDBEntities.Rankings.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.Leaderboard.LeaderboardName.Equals(leaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            return foundRanking;
         }
 
         /// <summary>
@@ -88,26 +83,23 @@ namespace PMDemo.DataProvider
         {
             try
             {
-                using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
+                Ranking newRanking = new Ranking();
+                newRanking.Username = ranking.Username;
+                newRanking.Rating = ranking.Rating;
+                Leaderboard leaderboard = LeaderboardDBEntities.Leaderboards.Where(x => x.LeaderboardName.Equals(ranking.LeaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                if (null == leaderboard)
                 {
-                    Ranking newRanking = new Ranking();
-                    newRanking.Username = ranking.Username;
-                    newRanking.Rating = ranking.Rating;
-                    Leaderboard leaderboard = entities.Leaderboards.Where(x => x.LeaderboardName.Equals(ranking.LeaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                    if (null == leaderboard)
-                    {
-                        Leaderboard newLeaderboard = new Leaderboard();
-                        newLeaderboard.LeaderboardName = ranking.LeaderboardName;
-                        entities.Leaderboards.Add(newLeaderboard);
-                        leaderboard = newLeaderboard;
-                    }
-
-                    newRanking.Leaderboard = leaderboard;
-                    newRanking.LeaderboardID = leaderboard.LeaderboardID; 
-                    entities.Rankings.Add(newRanking);
-                    entities.SaveChanges();
-                    return newRanking;
+                    Leaderboard newLeaderboard = new Leaderboard();
+                    newLeaderboard.LeaderboardName = ranking.LeaderboardName;
+                    LeaderboardDBEntities.Leaderboards.Add(newLeaderboard);
+                    leaderboard = newLeaderboard;
                 }
+
+                newRanking.Leaderboard = leaderboard;
+                newRanking.LeaderboardID = leaderboard.LeaderboardID;
+                LeaderboardDBEntities.Rankings.Add(newRanking);
+                LeaderboardDBEntities.SaveChanges();
+                return newRanking;
             }
             catch (Exception)
             {
@@ -124,18 +116,16 @@ namespace PMDemo.DataProvider
         {
             try
             {
-                using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
-                {
-                    Ranking newRanking = new Ranking();
-                    newRanking.Username = ranking.Username;
-                    newRanking.Rating = ranking.Rating;
-                    Leaderboard leaderboard = entities.Leaderboards.Where(x => x.LeaderboardName.Equals(ranking.LeaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                    newRanking.Leaderboard = leaderboard;
-                    newRanking.LeaderboardID = leaderboard.LeaderboardID;
-                    foundRanking = newRanking;
-                    entities.SaveChanges();
-                    return foundRanking;
-                }
+                Ranking newRanking = new Ranking();
+                newRanking.RankingID = foundRanking.RankingID;
+                newRanking.Username = ranking.Username;
+                newRanking.Rating = ranking.Rating;
+                Leaderboard leaderboard = LeaderboardDBEntities.Leaderboards.Where(x => x.LeaderboardName.Equals(ranking.LeaderboardName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                newRanking.Leaderboard = leaderboard;
+                newRanking.LeaderboardID = leaderboard.LeaderboardID;
+                LeaderboardDBEntities.Entry(foundRanking).CurrentValues.SetValues(newRanking);
+                LeaderboardDBEntities.SaveChanges();
+                return foundRanking;
             }
             catch (Exception)
             {
@@ -152,18 +142,15 @@ namespace PMDemo.DataProvider
         {
             try
             {
-                using (LeaderboardDBEntities entities = new LeaderboardDBEntities())
+                Ranking foundRanking = LeaderboardDBEntities.Rankings.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.Leaderboard.LeaderboardName.Equals(leaderboard, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                if (null == foundRanking)
                 {
-                    Ranking foundRanking = entities.Rankings.Where(x => x.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase) && x.Leaderboard.LeaderboardName.Equals(leaderboard, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                    if (null == foundRanking)
-                    {
-                        throw new KeyNotFoundException($"Ranking for {username} on {leaderboard} leaderboard was not found.");
-                    }
-
-                    entities.Rankings.Remove(foundRanking);
-                    entities.SaveChanges();
-                    return foundRanking;
+                    throw new KeyNotFoundException($"Ranking for {username} on {leaderboard} leaderboard was not found.");
                 }
+
+                LeaderboardDBEntities.Rankings.Remove(foundRanking);
+                LeaderboardDBEntities.SaveChanges();
+                return foundRanking;
             }
             catch (Exception)
             {

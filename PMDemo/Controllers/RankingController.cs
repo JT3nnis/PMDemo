@@ -15,24 +15,28 @@ namespace PMDemo.Controllers
     /// </summary>
     public class RankingController : ApiController
     {
-        LeaderboardDataProvider leaderboardDataProvider = new LeaderboardDataProvider();
+        private LeaderboardDataProvider LeaderboardDataProvider;
+        public RankingController()
+        {
+            LeaderboardDataProvider = new LeaderboardDataProvider();
+        }
 
         /// <inheritdoc cref="LeaderboardDataProvider.RetrieveRankingViews()"/>
         public IEnumerable<RankingView> GetAllRankings()
         {
-            return leaderboardDataProvider.RetrieveRankingViews();
+            return LeaderboardDataProvider.RetrieveRankingViews();
         }
 
         /// <inheritdoc cref="LeaderboardDataProvider.RetrieveLeaderboardRankings(string, bool, int?, int?)"/>
         public IEnumerable<RankingView> GetLeaderboardRankings(string name, bool ascending, int? size = null, int? begin = null)
         {
-            return leaderboardDataProvider.RetrieveLeaderboardRankings(name, ascending, size, begin);
+            return LeaderboardDataProvider.RetrieveLeaderboardRankings(name, ascending, size, begin);
         }
 
         /// <inheritdoc cref="LeaderboardDataProvider.RetrieveLeaderboardRanking(string, string)"/>
         public RankingView GetRanking(string username, string leaderboard)
         {
-            return leaderboardDataProvider.RetrieveLeaderboardRanking(username, leaderboard);
+            return LeaderboardDataProvider.RetrieveLeaderboardRanking(username, leaderboard);
         }
 
         /// <summary>
@@ -47,17 +51,17 @@ namespace PMDemo.Controllers
                 CheckArgumentExists(ranking.LeaderboardName, nameof(ranking.LeaderboardName));
                 CheckRatingNegative(ranking.Rating);
 
-                Ranking foundRanking = leaderboardDataProvider.FindRanking(ranking.Username, ranking.LeaderboardName);
+                Ranking foundRanking = LeaderboardDataProvider.FindRanking(ranking.Username, ranking.LeaderboardName);
                 if (null == foundRanking)
                 {
-                    Ranking newRanking = leaderboardDataProvider.CreateRanking(ranking);
+                    Ranking newRanking = LeaderboardDataProvider.CreateRanking(ranking);
                     var message = Request.CreateResponse(HttpStatusCode.Created, ranking);
                     message.Headers.Location = new Uri(Request.RequestUri + newRanking.RankingID.ToString());
                     return message;
                 }
                 else
                 {
-                    leaderboardDataProvider.UpdateRanking(foundRanking, ranking);
+                    LeaderboardDataProvider.UpdateRanking(foundRanking, ranking);
                     return Request.CreateResponse(HttpStatusCode.OK, ranking);
                 }
             }
@@ -76,7 +80,7 @@ namespace PMDemo.Controllers
         {
             try
             {
-                Ranking ranking = leaderboardDataProvider.DeleteRanking(username, leaderboard);
+                Ranking ranking = LeaderboardDataProvider.DeleteRanking(username, leaderboard);
                 return Request.CreateResponse(HttpStatusCode.OK, ranking);
             }
             catch (KeyNotFoundException ex)
